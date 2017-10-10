@@ -3,9 +3,8 @@
   "version": "0.0.1",
   "scripts": {
     "start": "npm-run-all --parallel continuous-build serve-build",
-    "clean-pre-build": "rimraf dist",
-    "clean-post-build": "rimraf dist/styles*.js*",
-    "build": "npm run clean-pre-build && cross-env NODE_ENV=prod webpack --bail && npm run clean-post-build",
+    "clean-dist": "rimraf dist",
+    "build": "npm run clean-dist && cross-env NODE_ENV=prod webpack --bail",
     "continuous-build": "cross-env NODE_ENV=dev webpack",
     "serve-build": "browser-sync start --server dist --files dist"
   },

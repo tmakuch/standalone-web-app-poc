@@ -4,11 +4,7 @@ const CopyPlugin = require('copy-webpack-plugin');
 const root = require('./helpers').root;
 
 module.exports = {
-    entry: {
-        'styles': root('/src/styles/index.less'),
-        'index': root('/src/scripts/index.js'),
-        'service-worker': root('/src/scripts/service-worker.js')
-    },
+    entry: root('/src/scripts/index.js'),
     module: {
         rules: [
             {
@@ -33,9 +29,6 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: 'src/index.html',
             chunksSortMode: 'dependency',
-            chunks: [
-                'index'
-            ],
             inject: 'body'
         }),
         new ExtractTextPlugin('index.css'),

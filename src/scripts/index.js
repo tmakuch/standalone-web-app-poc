@@ -1,3 +1,5 @@
+require('../styles/index.less');
+
 if (window.location.search === '?drop') {
     navigator.serviceWorker.getRegistration()
         .then(regi => regi.unregister())
