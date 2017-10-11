@@ -6,7 +6,8 @@
     "clean-dist": "rimraf dist",
     "build": "npm run clean-dist && cross-env NODE_ENV=prod webpack --bail",
     "continuous-build": "cross-env NODE_ENV=dev webpack",
-    "serve-build": "browser-sync start --server dist --files dist"
+    "serve-build": "browser-sync start --server dist --files dist",
+    "serve-build-static": "npm run build && http-server dist"
   },
   "author": "tmakuch <tadeusz.makuch@gmail.com>",
   "license": "MIT",

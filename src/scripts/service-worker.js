@@ -1,4 +1,9 @@
-import { installWorkerDependencies, invalidateCache } from './service-worker/lifecycle';
+import { installWorkerDependencies, invalidateCache, registerForFetch } from './service-worker/lifecycle';
 
-installWorkerDependencies(self, caches);
-invalidateCache(self, caches);
+try {
+    installWorkerDependencies(self, caches);
+    invalidateCache(self, caches);
+    registerForFetch(self, caches);
+} catch (e) {
+    console.error('service worker error', e);
+}

@@ -3,9 +3,15 @@ import { getPrefixedCacheName, isKeyStale } from './utils/versioning';
 export function installWorkerDependencies(worker, caches) {
     worker.addEventListener('install', event => event.waitUntil(
         caches
-            .open(getPrefixedCacheName('testing'))
+            .open(getPrefixedCacheName('resources'))
             .then((cache) => cache.addAll([
                     '/',
+                    '/resources/icons/0-75x.png',
+                    '/resources/icons/1x.png',
+                    '/resources/icons/1-5x.png',
+                    '/resources/icons/2x.png',
+                    '/resources/icons/3x.png',
+                    '/resources/icons/4x.png',
                     '/index.css',
                     '/index.js',
                     '/manifest.json'
@@ -16,11 +22,34 @@ export function installWorkerDependencies(worker, caches) {
 export function invalidateCache(worker, caches) {
     //damn, I'm doing this...
     worker.addEventListener('activate', event => {
-        event.waitUntil(
+        caches.keys().then(keys => console.log('keys', keys));
+        return event.waitUntil(
             caches.keys().then(keys => Promise.all(keys
                 .filter(isKeyStale)
-                .map(key => caches.delete(key))
+                .map(key => {
+                    console.log('removing cache', key);
+                    return caches.delete(key);
+                })
             ))
-        );
+        )
+    });
+}
+
+export function registerForFetch(worker, caches) {
+    worker.addEventListener('fetch', function (event) {
+        let respondPromise;
+        if (event.request.method !== 'GET') {
+            respondPromise = fetch(event.request);
+        } else {
+            respondPromise = caches.open(getPrefixedCacheName('resources')).then(function(cache) {
+                return cache.match(event.request).then(function (response) {
+                    return response || fetch(event.request).then(function(response) {
+                        cache.put(event.request, response.clone());
+                        return response;
+                    });
+                });
+            });
+        }
+        return event.respondWith(respondPromise);
     });
 }

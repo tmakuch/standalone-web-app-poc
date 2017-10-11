@@ -34,7 +34,7 @@ module.exports = {
         new ExtractTextPlugin('index.css'),
         new CopyPlugin([
             { from: 'src/manifest.json' },
-            { from: 'src/icons', to: 'icons' }
+            { from: 'src/resources', to: 'resources' }
         ])
     ]
 };
