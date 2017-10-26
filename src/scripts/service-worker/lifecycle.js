@@ -6,12 +6,7 @@ export function installWorkerDependencies(worker, caches) {
             .open(getPrefixedCacheName('resources'))
             .then((cache) => cache.addAll([
                     '/',
-                    '/resources/icons/0-75x.png',
-                    '/resources/icons/1x.png',
-                    '/resources/icons/1-5x.png',
-                    '/resources/icons/2x.png',
-                    '/resources/icons/3x.png',
-                    '/resources/icons/4x.png',
+                    '/resources/icons.ico',
                     '/index.css',
                     '/index.js',
                     '/manifest.json'
